@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#166534" />
+  <title>WalkLoop — timed circular walking routes</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="preconnect" href="https://tile.openstreetmap.org" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Timed circular walking routes</p>
+        <h1>WalkLoop</h1>
+      </div>
+      <div class="status-pill" id="serviceStatus" aria-live="polite">Ready</div>
+    </header>
+
+    <section class="planner" aria-label="Route planner">
+      <div class="controls-panel">
+        <div class="field-group">
+          <label for="duration">How long do you want to walk?</label>
+          <div class="duration-row">
+            <input id="duration" type="number" min="10" max="240" step="5" value="45" inputmode="numeric" />
+            <span>minutes</span>
+          </div>
+          <input id="durationRange" type="range" min="10" max="240" step="5" value="45" aria-label="Walking duration" />
+        </div>
+
+        <div class="field-group">
+          <label for="pace">Walking pace</label>
+          <select id="pace">
+            <option value="3.8">Relaxed · 3.8 km/h</option>
+            <option value="4.8" selected>Normal · 4.8 km/h</option>
+            <option value="5.8">Brisk · 5.8 km/h</option>
+          </select>
+        </div>
+
+        <div class="location-card">
+          <div>
+            <strong>Starting point</strong>
+            <p id="locationText">Use your location, or click the map.</p>
+          </div>
+          <button id="locateBtn" class="secondary-btn" type="button">Use my location</button>
+        </div>
+
+        <button id="generateBtn" class="primary-btn" type="button" disabled>Generate circular route</button>
+        <p class="hint">The app asks for browser location permission only when you press “Use my location”. You can also set the start manually by clicking the map.</p>
+      </div>
+
+      <div class="map-panel">
+        <div id="map" aria-label="Map showing the generated circular walking route"></div>
+        <div class="map-message" id="mapMessage">Set a starting point to begin.</div>
+      </div>
+    </section>
+
+    <section class="results" id="results" hidden>
+      <div class="stats-grid">
+        <article class="stat-card">
+          <span>Walking time</span>
+          <strong id="actualTime">—</strong>
+          <small id="timeDifference">—</small>
+        </article>
+        <article class="stat-card">
+          <span>Distance</span>
+          <strong id="actualDistance">—</strong>
+          <small>Pedestrian route</small>
+        </article>
+        <article class="stat-card">
+          <span>Returns to start</span>
+          <strong>Yes</strong>
+          <small>Circular loop</small>
+        </article>
+      </div>
+
+      <div class="result-actions">
+        <button id="alternateBtn" class="secondary-btn" type="button">Try another loop</button>
+        <button id="gpxBtn" class="secondary-btn" type="button">Download GPX</button>
+      </div>
+
+      <div class="directions-card">
+        <h2>Directions</h2>
+        <ol id="directionsList"></ol>
+      </div>
+    </section>
+
+    <footer>
+      <span>Routing data © OpenStreetMap contributors · routing by Valhalla</span>
+      <span>For walking only. Check local conditions and access restrictions.</span>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
